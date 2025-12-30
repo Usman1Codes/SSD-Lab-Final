@@ -1,0 +1,26 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+.container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+h1 { color: #333; }
+.add-form { display: flex; gap: 10px; }
+input { flex-grow: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+button, .btn-remove { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; }
+.btn-add { background-color: #28a745; color: white; }
+.btn-add:hover { background-color: #218838; }
+.btn-remove { background-color: #dc3545; color: white; font-size: 0.8rem; padding: 5px 10px; text-decoration: none; }
+.btn-remove:hover { background-color: #c82333; }
+.item-list { list-style: none; padding: 0; text-align: left; }
+.item-list li { background: #fff; border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+.empty { color: #777; font-style: italic; text-align: center; }

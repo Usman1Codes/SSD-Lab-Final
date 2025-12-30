@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Inventory Management</h1>
+        <form action="/add" method="POST" class="add-form">
+            <input type="text" name="item" placeholder="Enter new item name" required>
+            <button type="submit" class="btn-add">Add Item</button>
+        </form>
+        <hr>
+        <h3>Current Inventory:</h3>
+        <ul class="item-list">
+            {% for item in items %}
+                <li>
+                    <span>{{ item }}</span>
+                    <a href="/remove/{{ item }}" class="btn-remove">Remove</a>
+                </li>
+            {% else %}
+                <li class="empty">No items in inventory.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
