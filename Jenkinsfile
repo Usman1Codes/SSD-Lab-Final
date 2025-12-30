@@ -6,16 +6,24 @@ pipeline {
         stage('Step 1: Clone Repository') {
             steps {
                 echo 'Initiating Step 1: Cloning repository...'
-                
-                // While Jenkins Multibranch pipelines check out code automatically,
-                // this step explicitly pulls from your specific link as requested.
                 git branch: 'main', url: 'https://github.com/Usman1Codes/SSD-Lab-Final.git'
+            }
+        }
+
+        // Step 2: Install Dependencies
+        stage('Step 2: Install Dependencies') {
+            steps {
+                echo 'Initiating Step 2: Installing dependencies...'
                 
-                // List files to confirm the clone was successful
-                echo 'Verifying file contents:'
-                // Use 'dir' (Windows) or 'ls -la' (Linux/Mac). 
-                // Using 'sh' assumes a Linux/Mac environment or Git Bash on Windows.
-                sh 'ls -la' 
+                // We use a virtual environment to avoid permission errors on the server
+                // The '&&' ensures commands run in the same shell session
+                sh '''
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    pip list
+                '''
             }
         }
     }
