@@ -14,15 +14,26 @@ pipeline {
         stage('Step 2: Install Dependencies') {
             steps {
                 echo 'Initiating Step 2: Installing dependencies...'
-                
-                // We use a virtual environment to avoid permission errors on the server
-                // The '&&' ensures commands run in the same shell session
+                // We install requirements.txt which now includes pytest
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install --upgrade pip
                     pip install -r requirements.txt
-                    pip list
+                '''
+            }
+        }
+
+        // Step 3: Run Unit Tests
+        stage('Step 3: Run Unit Tests') {
+            steps {
+                echo 'Initiating Step 3: Running Unit Tests...'
+                
+                // We must reactivate the venv to access pytest
+                sh '''
+                    . venv/bin/activate
+                    echo "Running tests against app.py..."
+                    pytest
                 '''
             }
         }
