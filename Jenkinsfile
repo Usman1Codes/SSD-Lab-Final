@@ -14,7 +14,6 @@ pipeline {
         stage('Step 2: Install Dependencies') {
             steps {
                 echo 'Initiating Step 2: Installing dependencies...'
-                // We install requirements.txt which now includes pytest
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
@@ -28,13 +27,26 @@ pipeline {
         stage('Step 3: Run Unit Tests') {
             steps {
                 echo 'Initiating Step 3: Running Unit Tests...'
-                
-                // We must reactivate the venv to access pytest
                 sh '''
                     . venv/bin/activate
-                    echo "Running tests against app.py..."
                     pytest
                 '''
+            }
+        }
+
+        // Step 4: Build & Package
+        stage('Step 4: Build & Package') {
+            steps {
+                echo 'Initiating Step 4: Packaging Application...'
+                
+                // 1. Create a compressed .tar.gz file containing all app files
+                // We include app.py, the templates folder, static folder, and requirements
+                sh 'tar -czf management_app_v1.tar.gz app.py templates static requirements.txt'
+                
+                // 2. Archive the artifact so it is accessible in the Jenkins Dashboard
+                archiveArtifacts artifacts: 'management_app_v1.tar.gz', fingerprint: true
+                
+                echo 'Build successful! Artifact archived.'
             }
         }
     }
