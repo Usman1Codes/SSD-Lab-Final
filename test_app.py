@@ -20,8 +20,12 @@ def test_add_item(client):
 
 def test_remove_item(client):
     """Test removing an item"""
-    # First ensure item exists
-    client.post('/add', data={'item': 'Mouse'}, follow_redirects=True)
-    rv = client.get('/remove/Mouse', follow_redirects=True)
-    assert b"Mouse" not in rv.data
+    # Add a UNIQUE item that isn't in the default list
+    client.post('/add', data={'item': 'Webcam'}, follow_redirects=True)
+    
+    # Remove that unique item
+    rv = client.get('/remove/Webcam', follow_redirects=True)
+    
+    # Verify 'Webcam' is no longer in the HTML
+    assert b"Webcam" not in rv.data
     assert rv.status_code == 200
